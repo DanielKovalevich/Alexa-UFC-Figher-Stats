@@ -1,0 +1,28 @@
+{
+  "name": "figher-stats",
+  "version": "1.0.0",
+  "description": "Gives fighter statistics using Alexa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielKovalevich/Alexa-UFC-Fighter-Stats.git"
+  },
+  "keywords": [
+    "UFC",
+    "MMA",
+    "fighter"
+  ],
+  "author": "Daniel Kovalevich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanielKovalevich/Alexa-UFC-Fighter-Stats/issues"
+  },
+  "homepage": "https://github.com/DanielKovalevich/Alexa-UFC-Fighter-Stats#readme",
+  "dependencies": {
+    "alexa-sdk": "^1.0.11",
+    "mma": "^0.2.0"
+  }
+}
