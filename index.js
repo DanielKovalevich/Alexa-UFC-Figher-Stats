@@ -39,11 +39,13 @@ let handlers = {
         else {
             // format stats so it shows only the essential info
             mma.fighter(fighter, function (data) {
-                if (!data.statistic) {
+                if (!data[statistic]) {
                     Object.emit(':tell', "Sorry. I don't think I know that one.");
                 }
                 else {
-                    let speechOutput = data.name + "'s " + statisitc + " is " + data.statisitc;
+                    
+
+                    let speechOutput = data.name + "'s " + statistic + " is " + data[statistic];
                     Object.emit(':tell', speechOutput);
                 }
             });
@@ -65,7 +67,6 @@ let handlers = {
     }
 }
 
-/*
 function fighterStatistics() {
 
-}*/
+}

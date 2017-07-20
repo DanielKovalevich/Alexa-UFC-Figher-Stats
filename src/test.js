@@ -1,8 +1,8 @@
 var mma = require('mma');
 
 mma.fighter("Jon Jones", function (data) {
-    let fighter;
-    let statistic;
+    let fighter = "jones";
+    let statistic = 'age';
     if (!fighter) {
         let speechOutput = "HELP_REPROMPT";
         console.log(speechOutput);
@@ -17,11 +17,11 @@ mma.fighter("Jon Jones", function (data) {
     else {
         // format stats so it shows only the essential info
         mma.fighter(fighter, function(data) {
-            if (!data.statistic) {
+            if (!data[statistic]) {
                 console.log("Sorry. I don't think I know that one.");
             }
             else {
-                let speechOutput = data.name + "'s " + statisitc + " is " + data.statisitc;
+                let speechOutput = data.name + "'s " + statistic + " is " + data[statistic];
                 console.log(speechOutput);
             }
         });
