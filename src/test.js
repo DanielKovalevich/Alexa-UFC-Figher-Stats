@@ -1,13 +1,29 @@
 var mma = require('mma');
 
-var statisic = 'age';
-
 mma.fighter("Jon Jones", function (data) {
-    if (!data[statisic]) {
-        console.log( "Sorry. I don't think I know that one.");
+    let fighter;
+    let statistic;
+    if (!fighter) {
+        let speechOutput = "HELP_REPROMPT";
+        console.log(speechOutput);
+    }
+    else if (!statistic) {
+        // format stats so it shows only the essential info
+        mma.fighter(fighter, function(data) {
+            let speechOutput = data.fullname + " is a " + data.weight_class + " from " + data.nationality + " with a record of " + data.wins.total + " wins and " + data.losses.total + " losses";
+            console.log(speechOutput);
+        });
     }
     else {
-        let speechOutput = data.name + "'s " + statisic + " is " + data[statisic];
-        console.log(speechOutput);
+        // format stats so it shows only the essential info
+        mma.fighter(fighter, function(data) {
+            if (!data.statistic) {
+                console.log("Sorry. I don't think I know that one.");
+            }
+            else {
+                let speechOutput = data.name + "'s " + statisitc + " is " + data.statisitc;
+                console.log(speechOutput);
+            }
+        });
     }
 });
