@@ -6,33 +6,44 @@ var Alexa = require("alexa-sdk");
 var SKILL_NAME = "U. F. C. Fighter Statistics";
 var HELP_MESSAGE = "Ask about a fighter and I'll do my best to answer.";
 var HELP_REPROMPT = "What fighter do you want to know about?";
-var STOP_MESSAGE = "Thank you for your time.;"
+var STOP_MESSAGE = "Thank you for your time.";
 
 exports.handler = function (event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.APP_ID = APP_ID;
+    alexa.appid = APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
 
 let handlers = {
     'fighterStats': function () {
+        console.log('In fighter');
+        console.log(this.event.request);
+
         var Object = this;
         var intentObj = this.event.request.intent;
         let fighter = intentObj.slots.fighter.value;
-        let statistic = intentObj.slots.statistic.value;
-        if (!fighter) {
-            let slotToElicit = 'AMAZON.Athlete';
-            let speechOutput = "That doesn't seem to be a real fighter. Try another.";
-            Object.emit(':elicitSlot', slotToElicit, speechOutput, HELP_REPROMPT);
-            let fighter = intentObj.slots.fighter.value;
+
+        if (this.event.request.dialogState !== 'COMPLETED' && !fighter) {
+            console.log('Trying to delegate');
+            this.emit(':delegate');
         }
-        else if (!statistic) {
+        else {
+            if (!fighter) {
+                let slotToElicit = 'fighter';
+                let speechOutput = "That doesn't seem to be a real fighter. Try another.";
+                Object.emit(':elicitSlot', slotToElicit, speechOutput, speechOutput);
+                let fighter = intentObj.slots.fighter.value;
+            }
+            else {
+                console.log(fighter);
+            }
+
             // format stats so it shows only the essential info
             mma.fighter(fighter, function (data) {
                 if (data == null) {
-                    let slotToElicit = 'AMAZON.Athlete';
-                    let speechOutput = HELP_REPROMPT;
+                    let slotToElicit = 'fighter';
+                    let speechOutput = 'I don\'t think that is a fighter. Which fighter did you wish to hear about?';
                     Object.emit(':elicitSlot', slotToElicit, speechOutput, speechOutput);
                     let fighter = intentObj.slots.fighter.value;
                 }
@@ -42,8 +53,23 @@ let handlers = {
                 }
             });
         }
+    },
+    'GetStatisticIntent': function () {
+        console.log('IN STATISTICS');
+        var Object = this;
+        var intentObj = this.event.request.intent;
+        let fighter = intentObj.slots.fighter.value;
+        let statistic = intentObj.slots.statistic.value;
+        // format stats so it shows only the essential info
+
+        if (this.event.request.dialogState !== 'COMPLETED' && !fighter) {
+            console.log('Trying to delegate');
+            console.log(this.event.request);
+            // Pre-fill slots: update the intent object with slot values for which
+            // you have defaults, then emit :delegate with this updated intent.
+            this.emit(':delegate');
+        }
         else {
-            // format stats so it shows only the essential info
             mma.fighter(fighter, function (data) {
                 if (data == null) {
                     Object.emit(':tell', "That is not a real fighter!");
@@ -151,6 +177,7 @@ let handlers = {
         this.emit(':ask', HELP_MESSAGE, HELP_REPROMPT);
     },
     'LaunchRequest': function () {
+        console.log('In launch');
         this.emit(':ask', HELP_MESSAGE, HELP_REPROMPT);
     },
 };
