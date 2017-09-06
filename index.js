@@ -17,9 +17,6 @@ exports.handler = function (event, context, callback) {
 
 let handlers = {
     'fighterStats': function () {
-        console.log('In fighter');
-        console.log(this.event.request);
-
         var Object = this;
         var intentObj = this.event.request.intent;
         let fighter = intentObj.slots.fighter.value;
@@ -55,7 +52,6 @@ let handlers = {
         }
     },
     'GetStatisticIntent': function () {
-        console.log('IN STATISTICS');
         var Object = this;
         var intentObj = this.event.request.intent;
         let fighter = intentObj.slots.fighter.value;
